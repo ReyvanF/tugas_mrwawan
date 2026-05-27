@@ -65,9 +65,12 @@ class AdminController extends Controller
         $request->validate([
             'category_id' => 'required|integer',
             'product_name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|numeric|min:0',
             'unit' => 'required|string|max:255',
+        ], [
+            'price.min' => 'Harga produk tidak boleh bernilai negatif!',
+            'stock.min' => 'Stok produk tidak boleh bernilai negatif!',
         ]);
         Products::create([
             'category_id' => $request->category_id,
@@ -99,9 +102,12 @@ class AdminController extends Controller
         $request->validate([
             'category_id' => 'required|integer',
             'product_name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|numeric|min:0',
             'unit' => 'required|string|max:255',
+        ], [
+            'price.min' => 'Harga produk tidak boleh negatif!',
+            'stock.min' => 'Stok produk tidak boleh negatif!',
         ]);
         $request->merge([
             'price' => (int)round($request->price),
