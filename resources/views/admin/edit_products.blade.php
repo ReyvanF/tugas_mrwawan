@@ -27,6 +27,20 @@
                     <form action="{{ route('admin.update_product', $product->id) }}" method="POST" class="space-y-5">
                         @csrf
                         @method('PUT')
+
+                        @if ($errors->any())
+                            <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-3 text-sm text-rose-800 shadow-3xs">
+                                <span class="text-rose-500 mt-0.5">!</span>
+                                <div>
+                                    <p class="font-semibold">Terjadi kesalahan saat menyimpan data:</p>
+                                    <ul class="list-disc list-inside mt-1 text-xs space-y-0.5">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
                         
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <!-- Nama Produk -->
@@ -55,14 +69,20 @@
                             <div class="flex flex-col gap-1.5">
                                 <label for="price" class="text-xs font-semibold text-gray-700">Harga</label>
                                 <input type="number" step="any" id="price" name="price" value="{{ old('price', (int)$product->price) }}" required 
-                                    class="w-full border border-gray-200 text-xs rounded-lg px-3.5 py-2.5 bg-gray-50/50 focus:bg-white focus:border-gray-950 focus:ring-0 transition">
+                                    class="w-full border {{ $errors->has('price') ? 'border-rose-400 bg-rose-50/50' : 'border-gray-200 bg-gray-50/50' }} text-xs rounded-lg px-3.5 py-2.5 focus:bg-white focus:border-gray-950 focus:ring-0 transition">
+                                @error('price')
+                                    <p class="text-[11px] text-rose-600 font-medium">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <!-- Stok -->
                             <div class="flex flex-col gap-1.5">
                                 <label for="stock" class="text-xs font-semibold text-gray-700">Stok</label>
                                 <input type="number" step="any" id="stock" name="stock" value="{{ old('stock', $product->stock) }}" required 
-                                    class="w-full border border-gray-200 text-xs rounded-lg px-3.5 py-2.5 bg-gray-50/50 focus:bg-white focus:border-gray-950 focus:ring-0 transition">
+                                    class="w-full border {{ $errors->has('stock') ? 'border-rose-400 bg-rose-50/50' : 'border-gray-200 bg-gray-50/50' }} text-xs rounded-lg px-3.5 py-2.5 focus:bg-white focus:border-gray-950 focus:ring-0 transition">
+                                @error('stock')
+                                    <p class="text-[11px] text-rose-600 font-medium">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <!-- Unit -->
